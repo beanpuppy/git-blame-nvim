@@ -37,9 +37,9 @@ function! s:GitBlameUpdateVirtualText (buffer, line)
 endfunction
 
 function! s:GitBlameData (buffer, line)
-  if (s:jobId)
-    call jobstop(s:jobId)
-  endif
+  " if (s:jobId)
+  "   call jobstop(s:jobId)
+  " endif
   let s:buffer = a:buffer
   let s:line = a:line
   let blameCommand = "git blame -p -L" . a:line . "," . a:line . " " . bufname(a:buffer)
@@ -62,7 +62,11 @@ function! s:GitBlameComposeText(lines)
   endif
   let data = { 'hash': a:lines[0][0:6] }
   for line in filter(a:lines, 'v:val != ""')
-    let [key; val] = split(line)
+    try
+      let [key; val] = split(line)
+    catch
+      return
+    endtry
     if (index(['author', 'author-time', 'summary'], key) > -1)
       let data[key] = join(val)
     endif

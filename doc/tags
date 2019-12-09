@@ -1,0 +1,7 @@
+GitBlameContents	git-blame-nvim.txt	/*GitBlameContents*
+GitBlameDisable()	git-blame-nvim.txt	/*GitBlameDisable()*
+GitBlameEnable()	git-blame-nvim.txt	/*GitBlameEnable()*
+GitBlameFunctions	git-blame-nvim.txt	/*GitBlameFunctions*
+GitBlameIntroduction	git-blame-nvim.txt	/*GitBlameIntroduction*
+GitBlameUsage	git-blame-nvim.txt	/*GitBlameUsage*
+git-blame-nvim	git-blame-nvim.txt	/*git-blame-nvim*
