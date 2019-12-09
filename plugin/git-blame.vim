@@ -13,6 +13,8 @@
 " @DONE docs
 " @TODO don't overwrite existing virtual text
 
+let g:blameLineVirtualTextHighlight = get(g:, 'blameLineVirtualTextHighlight', 'Comment')
+
 let s:gitBlameNsId = nvim_create_namespace('git-blame-messages')
 
 let s:prevBuffer = ''
@@ -40,7 +42,7 @@ function! s:GitBlameData (buffer, line)
   endif
   let s:buffer = a:buffer
   let s:line = a:line
-  let blameCommand = "git blame -p -L" . a:line . "," . a:line . " " . bufname(a:buffer) 
+  let blameCommand = "git blame -p -L" . a:line . "," . a:line . " " . bufname(a:buffer)
   let s:jobId = jobstart(blameCommand, {
     \ 'stdout_buffered': 1,
     \ 'on_stdout': function('s:GitBlameSetVirtualText')
@@ -50,7 +52,7 @@ endfunction
 function! s:GitBlameSetVirtualText(id, data, event)
   let s:jobId = 0
   if (line('.') == s:line)
-    call nvim_buf_set_virtual_text(s:buffer, s:gitBlameNsId, s:line - 1, [[s:GitBlameComposeText(a:data), 'Noise']], [])
+    call nvim_buf_set_virtual_text(s:buffer, s:gitBlameNsId, s:line - 1, [[s:GitBlameComposeText(a:data), g:blameLineVirtualTextHighlight]], [])
   endif
 endfunction
 
@@ -130,3 +132,6 @@ augroup git_blame_nvim_init
   autocmd!
   autocmd VimEnter * call GitBlameEnable()
 augroup end
+
+command! GitBlameEnable :call GitBlameEnable()
+command! GitBlameDisable :call GitBlameDisable()
