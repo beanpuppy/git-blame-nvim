@@ -37,9 +37,6 @@ function! s:GitBlameUpdateVirtualText (buffer, line)
 endfunction
 
 function! s:GitBlameData (buffer, line)
-  " if (s:jobId)
-  "   call jobstop(s:jobId)
-  " endif
   let s:buffer = a:buffer
   let s:line = a:line
   let blameCommand = "git blame -p -L" . a:line . "," . a:line . " " . bufname(a:buffer)
@@ -51,7 +48,7 @@ endfunction
 
 function! s:GitBlameSetVirtualText(id, data, event)
   let s:jobId = 0
-  if (line('.') == s:line)
+  if (line('.') == s:line && !&modified)
     call nvim_buf_set_virtual_text(s:buffer, s:gitBlameNsId, s:line - 1, [[s:GitBlameComposeText(a:data), g:blameLineVirtualTextHighlight]], [])
   endif
 endfunction
